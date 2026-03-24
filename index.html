@@ -20,7 +20,6 @@
   *{box-sizing:border-box;margin:0;padding:0;}
   html,body{height:100%;overscroll-behavior:none;}
   body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--charcoal);min-height:100vh;}
-
   .auth-screen{position:fixed;inset:0;background:var(--charcoal);display:flex;align-items:center;justify-content:center;z-index:500;padding:20px;}
   .auth-box{background:var(--warm-white);border-radius:18px;padding:36px 32px;width:100%;max-width:380px;animation:slideUp .3s ease;}
   @keyframes slideUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
@@ -37,7 +36,6 @@
   .auth-error{color:var(--rust);font-size:12px;margin-top:10px;text-align:center;min-height:18px;}
   .auth-switch{text-align:center;margin-top:16px;font-size:12px;color:var(--warm-gray);}
   .auth-switch span{color:var(--gold);cursor:pointer;font-weight:500;}
-
   header{background:var(--charcoal);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:56px;position:sticky;top:0;z-index:50;gap:10px;}
   .logo{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:500;color:var(--gold-light);letter-spacing:.12em;text-transform:uppercase;flex-shrink:0;}
   .header-right{display:flex;align-items:center;gap:8px;flex-shrink:0;}
@@ -53,7 +51,6 @@
   .nav-tabs{display:flex;background:rgba(255,255,255,.06);border-radius:8px;padding:3px;gap:2px;}
   .nav-tab{padding:5px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;border-radius:6px;transition:all .2s;}
   .nav-tab.active{background:var(--gold);color:#fff;}
-
   .app{max-width:1140px;margin:0 auto;padding:20px 16px 40px;}
   @media(min-width:820px){.app{display:grid;grid-template-columns:320px 1fr;gap:22px;padding:28px 24px 60px;align-items:start;}}
   .left-panel,.right-panel{display:flex;flex-direction:column;gap:14px;}
@@ -62,30 +59,26 @@
   .card-header{padding:12px 16px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;}
   .card-title{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--warm-gray);font-weight:600;}
   .card-body{padding:14px 16px;}
-
   .sync-dot{width:7px;height:7px;border-radius:50%;background:var(--divider);display:inline-block;margin-right:5px;transition:background .3s;}
   .sync-dot.synced{background:var(--green);}
   .sync-dot.syncing{background:var(--gold);animation:pulse 1s infinite;}
   .sync-dot.error{background:var(--rust);}
   .sync-label{font-size:10px;color:var(--warm-gray);}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
-
   .mode-tabs{display:flex;background:var(--cream);border-radius:10px;padding:3px;margin-bottom:14px;}
   .mode-tab{flex:1;padding:9px 0;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:var(--warm-gray);cursor:pointer;border-radius:8px;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:5px;}
   .mode-tab.active{background:var(--warm-white);color:var(--charcoal);box-shadow:0 1px 6px var(--shadow);}
-
   .form-row{margin-bottom:12px;}
   .form-label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--warm-gray);font-weight:600;margin-bottom:5px;}
   .select-field,.input-field{width:100%;background:var(--cream);border:1.5px solid var(--divider);border-radius:8px;padding:11px 12px;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);outline:none;transition:border-color .2s;appearance:none;-webkit-appearance:none;}
   .select-field:focus,.input-field:focus{border-color:var(--gold);}
-
-  .phase-pills{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
-  .phase-pill{padding:8px 5px;border:1.5px solid var(--divider);border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s;background:var(--cream);color:var(--charcoal);line-height:1.3;user-select:none;}
+  .phase-pills{display:grid;grid-template-columns:1fr;gap:5px;}
+  @media(min-width:480px){.phase-pills{grid-template-columns:1fr 1fr;}}
+  .phase-pill{padding:8px 10px;border:1.5px solid var(--divider);border-radius:8px;font-size:11px;font-weight:500;cursor:pointer;text-align:center;transition:all .15s;background:var(--cream);color:var(--charcoal);line-height:1.3;user-select:none;}
   .phase-pill:active{transform:scale(.97);}
   .phase-pill.sel-billable{border-color:var(--gold);background:#FBF0DC;color:#8B6E35;}
   .phase-pill.sel-nonbillable{border-color:#aaa;background:#F0EEEB;color:#666;}
   .phase-pill.sel-travel{border-color:var(--sage);background:#EDF2EE;color:var(--sage);}
-
   .time-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
   .time-box{background:var(--cream);border:1.5px solid var(--divider);border-radius:8px;padding:10px 12px;text-align:center;}
   .time-box-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--warm-gray);font-weight:600;margin-bottom:5px;}
@@ -93,18 +86,15 @@
   .quick-times{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:12px;}
   .qt{padding:6px 11px;background:var(--cream);border:1.5px solid var(--divider);border-radius:16px;font-size:11px;font-weight:500;cursor:pointer;color:var(--charcoal);font-family:'DM Sans',sans-serif;}
   .qt:active{border-color:var(--gold);color:var(--gold);}
-
   .action-btn{width:100%;padding:13px;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
   .btn-green{background:var(--green);color:#fff;}
   .btn-green:disabled{opacity:.38;cursor:not-allowed;}
   .btn-gold-full{background:var(--gold);color:#fff;}
   .btn-gold-full:disabled{opacity:.38;cursor:not-allowed;}
-
   .add-project-toggle{font-size:12px;color:var(--gold);cursor:pointer;font-weight:500;display:inline-flex;align-items:center;gap:4px;margin-top:10px;}
   .add-project-form{display:none;flex-direction:column;gap:7px;margin-top:10px;padding-top:10px;border-top:1px solid var(--divider);}
   .add-project-form.open{display:flex;}
   .btn-sm{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--divider);background:var(--cream);color:var(--charcoal);width:100%;justify-content:center;}
-
   .totals-bar{background:var(--charcoal);border-radius:14px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
   @media(min-width:820px){.totals-bar{margin-bottom:0;}}
   .total-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:3px;}
@@ -115,7 +105,6 @@
   .billable-v{color:var(--gold-light);}
   .nonbillable-v{color:rgba(255,255,255,.45);}
   .travel-v{color:#A8C4AA;}
-
   .timers-list{display:flex;flex-direction:column;gap:10px;}
   .timer-card{border:1.5px solid var(--divider);border-radius:12px;padding:14px 16px;position:relative;overflow:hidden;background:var(--warm-white);}
   .timer-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--divider);transition:background .3s;}
@@ -140,30 +129,28 @@
   .running-pulse{display:inline-flex;align-items:center;gap:5px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--green);font-weight:600;}
   .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s ease-in-out infinite;}
   .empty-timers{text-align:center;padding:36px 20px;color:var(--warm-gray);}
-  .empty-timers-icon{font-size:30px;margin-bottom:10px;opacity:.35;}
   .empty-timers-text{font-size:14px;font-weight:500;margin-bottom:3px;}
   .empty-timers-sub{font-size:12px;opacity:.7;}
-
   .log-table{width:100%;border-collapse:collapse;font-size:12px;}
   .log-table th{background:var(--charcoal);color:rgba(255,255,255,.45);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;text-align:left;font-weight:500;}
   .log-table td{padding:9px 12px;border-bottom:1px solid var(--divider);color:var(--charcoal);background:var(--warm-white);vertical-align:middle;}
   .log-table tr:last-child td{border-bottom:none;}
+  .log-table tr.editing td{background:#FFFDF7;}
   .method-badge{display:inline-block;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:600;text-transform:uppercase;}
   .method-timer{background:#EAF3EB;color:var(--green);}
   .method-manual{background:#EEF0F8;color:#5A6EA0;}
   .delete-btn{background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:13px;padding:3px 5px;border-radius:4px;}
   .delete-btn:hover{color:var(--rust);}
-  .edit-btn{background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:14px;padding:3px 5px;border-radius:4px;}
+  .edit-btn{background:none;border:none;cursor:pointer;color:var(--warm-gray);font-size:11px;padding:3px 5px;border-radius:4px;font-family:'DM Sans',sans-serif;font-weight:500;}
   .edit-btn:hover{color:var(--gold);}
   .empty-log-row{text-align:center;padding:22px;color:var(--warm-gray);font-size:12px;}
-  .inline-edit-input{background:var(--cream);border:1.5px solid var(--gold);border-radius:6px;padding:4px 8px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--charcoal);outline:none;}
-  .inline-save-btn{background:var(--green);color:#fff;border:none;border-radius:5px;padding:4px 10px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-  .inline-cancel-btn{background:transparent;color:var(--warm-gray);border:1px solid var(--divider);border-radius:5px;padding:4px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
-
+  .ie-select{background:var(--cream);border:1.5px solid var(--gold);border-radius:6px;padding:4px 6px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--charcoal);outline:none;width:100%;}
+  .ie-input{background:var(--cream);border:1.5px solid var(--gold);border-radius:6px;padding:4px 8px;font-family:'DM Sans',sans-serif;font-size:11px;color:var(--charcoal);outline:none;width:100%;}
+  .ie-save{background:var(--green);color:#fff;border:none;border-radius:5px;padding:5px 11px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+  .ie-cancel{background:transparent;color:var(--warm-gray);border:1px solid var(--divider);border-radius:5px;padding:5px 8px;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
   .history-tabs{display:flex;background:var(--cream);border-radius:10px;padding:3px;margin-bottom:0;}
   .history-tab{flex:1;padding:7px 0;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:var(--warm-gray);cursor:pointer;border-radius:8px;transition:all .2s;text-align:center;}
   .history-tab.active{background:var(--warm-white);color:var(--charcoal);box-shadow:0 1px 6px var(--shadow);}
-
   .dash-wrap{max-width:1140px;margin:0 auto;padding:20px 16px 60px;}
   .dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px;}
   @media(max-width:700px){.dash-grid{grid-template-columns:1fr 1fr;}}
@@ -180,7 +167,6 @@
   .progress-bar-fill{height:6px;border-radius:4px;background:var(--green);}
   .progress-bar-fill.over{background:var(--rust);}
   .proj-pct{font-size:10px;font-weight:600;margin-top:3px;}
-
   .modal-overlay{position:fixed;inset:0;background:rgba(44,44,42,.6);display:flex;align-items:center;justify-content:center;z-index:300;backdrop-filter:blur(3px);padding:20px;}
   .modal-box{background:var(--warm-white);border-radius:14px;padding:24px;width:100%;max-width:420px;animation:slideUp .25s ease;}
   .modal-h{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:400;margin-bottom:4px;}
@@ -191,7 +177,6 @@
   .btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;border:none;}
   .btn-gold{background:var(--gold);color:#fff;}
   .btn-ghost{background:transparent;color:var(--warm-gray);border:1.5px solid var(--divider);}
-
   .toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--charcoal);color:var(--gold-light);padding:11px 22px;border-radius:10px;font-size:13px;font-weight:500;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:all .3s;z-index:400;white-space:nowrap;}
   .toast.show{transform:translateX(-50%) translateY(0);opacity:1;}
   .loading-screen{position:fixed;inset:0;background:var(--charcoal);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:600;gap:16px;}
@@ -249,8 +234,8 @@
         </div>
         <div class="card-body">
           <div class="mode-tabs">
-            <button class="mode-tab active" id="tab-timer" onclick="switchMode('timer')">⏱ Live Timer</button>
-            <button class="mode-tab" id="tab-manual" onclick="switchMode('manual')">✏️ Manual Entry</button>
+            <button class="mode-tab active" id="tab-timer" onclick="switchMode('timer')">Live Timer</button>
+            <button class="mode-tab" id="tab-manual" onclick="switchMode('manual')">Manual Entry</button>
           </div>
           <div class="form-row">
             <label class="form-label">Project</label>
@@ -263,7 +248,7 @@
             <div class="phase-pills" id="phasePills"></div>
           </div>
           <div id="timerMode">
-            <button class="action-btn btn-green" id="startBtn" onclick="startTimer()" disabled>▶ &nbsp;Start Timer</button>
+            <button class="action-btn btn-green" id="startBtn" onclick="startTimer()" disabled>Start Timer</button>
           </div>
           <div id="manualMode" style="display:none;">
             <div class="form-row">
@@ -287,7 +272,7 @@
               <label class="form-label">Notes (optional)</label>
               <textarea class="notes-textarea" id="manNotes" rows="2" style="margin-bottom:0" placeholder="e.g. vendor follow-up, mood board review..."></textarea>
             </div>
-            <button class="action-btn btn-gold-full" id="manualLogBtn" onclick="logManual()" disabled style="margin-top:10px;">+ &nbsp;Log Entry</button>
+            <button class="action-btn btn-gold-full" id="manualLogBtn" onclick="logManual()" disabled style="margin-top:10px;">Log Entry</button>
           </div>
           <span class="add-project-toggle" onclick="toggleAddProject()">+ Add project</span>
           <div class="add-project-form" id="addProjectForm">
@@ -310,7 +295,6 @@
         </div>
       </div>
     </div>
-
     <div class="right-panel">
       <div class="card">
         <div class="card-header">
@@ -320,7 +304,6 @@
         <div class="card-body" style="padding:12px">
           <div class="timers-list" id="timersList">
             <div class="empty-timers">
-              <div class="empty-timers-icon">⏱</div>
               <div class="empty-timers-text">No timers running</div>
               <div class="empty-timers-sub">Use Live Timer mode to begin</div>
             </div>
@@ -330,7 +313,7 @@
       <div class="card">
         <div class="card-header">
           <div class="card-title">My Entries</div>
-          <button class="btn btn-gold" onclick="exportCSV()" style="padding:5px 12px;font-size:11px;">⬇ Export CSV</button>
+          <button class="btn btn-gold" onclick="exportCSV()" style="padding:5px 12px;font-size:11px;">Export CSV</button>
         </div>
         <div style="padding:10px 14px 0;border-bottom:1px solid var(--divider);">
           <div class="history-tabs">
@@ -342,12 +325,12 @@
         <div style="overflow-x:auto;">
           <table class="log-table">
             <thead>
-              <tr><th>Date</th><th>Designer</th><th>Project</th><th>Phase</th><th>Type</th><th>Method</th><th>Hours</th><th>Notes</th><th></th></tr>
+              <tr><th>Date</th><th>Designer</th><th>Project</th><th>Phase</th><th>Type</th><th>Hrs</th><th>Notes</th><th></th></tr>
             </thead>
-            <tbody id="logBody"><tr><td colspan="9" class="empty-log-row">Loading…</td></tr></tbody>
+            <tbody id="logBody"><tr><td colspan="8" class="empty-log-row">Loading…</td></tr></tbody>
           </table>
         </div>
-        <div style="padding:8px 14px;font-size:10px;color:var(--warm-gray);">Tap ✎ to edit hours or notes on any entry.</div>
+        <div style="padding:8px 14px;font-size:10px;color:var(--warm-gray);">Tap Edit on any row to change project, phase, hours, or notes.</div>
       </div>
     </div>
   </div>
@@ -359,11 +342,11 @@
     <div class="card" style="margin-bottom:14px;">
       <div class="card-header">
         <div class="card-title">Hours by Project</div>
-        <button class="btn btn-gold" onclick="exportCSV()" style="padding:5px 12px;font-size:11px;">⬇ Export CSV</button>
+        <button class="btn btn-gold" onclick="exportAllCSV()" style="padding:5px 12px;font-size:11px;">Export All CSV</button>
       </div>
       <div style="overflow-x:auto;">
         <table class="proj-table">
-          <thead><tr><th>Project</th><th>Client</th><th>Estimated</th><th>Billable Actual</th><th>Non-Billable</th><th>Travel</th><th>Progress vs Estimate</th></tr></thead>
+          <thead><tr><th>Project</th><th>Client</th><th>Estimated</th><th>Billable</th><th>Non-Billable</th><th>Travel</th><th>Progress</th></tr></thead>
           <tbody id="dashProjBody"></tbody>
         </table>
       </div>
@@ -387,7 +370,7 @@
     <textarea class="notes-textarea" id="notesInput" rows="3" placeholder="Optional notes..."></textarea>
     <div class="modal-btns">
       <button class="btn btn-ghost" onclick="cancelLog()">Cancel</button>
-      <button class="btn btn-gold" onclick="confirmLog()">Log ✓</button>
+      <button class="btn btn-gold" onclick="confirmLog()">Log</button>
     </div>
   </div>
 </div>
@@ -400,27 +383,27 @@ const SUPABASE_KEY  = 'sb_publishable_bl5XmbwZ2sj_ffqCW0mafg_IAY_4Hh-';
 const MANAGER_EMAIL = 'morgan@havenandharbor.com';
 
 const phases = [
-  { label:'Inquiry',                   icon:'🔍', type:'billable'    },
-  { label:'Onboarding',                icon:'📋', type:'billable'    },
-  { label:'Inspiration',               icon:'💡', type:'billable'    },
-  { label:'Concept Design',            icon:'✏️', type:'billable'    },
-  { label:'Design Development',        icon:'📐', type:'billable'    },
-  { label:'Procurement',               icon:'🛒', type:'billable'    },
-  { label:'Coordination Billable',     icon:'📞', type:'billable'    },
-  { label:'Coordination Non-Billable', icon:'📝', type:'nonbillable' },
-  { label:'Install',                   icon:'🔧', type:'billable'    },
-  { label:'Wrap Up',                   icon:'✅', type:'billable'    },
-  { label:'Travel',                    icon:'🚗', type:'travel'      },
+  { label:'Inquiry',                   type:'billable'    },
+  { label:'Onboarding',                type:'billable'    },
+  { label:'Inspiration',               type:'billable'    },
+  { label:'Concept Design',            type:'billable'    },
+  { label:'Design Development',        type:'billable'    },
+  { label:'Procurement',               type:'billable'    },
+  { label:'Coordination Billable',     type:'billable'    },
+  { label:'Coordination Non-Billable', type:'nonbillable' },
+  { label:'Install',                   type:'billable'    },
+  { label:'Wrap Up',                   type:'billable'    },
+  { label:'Travel',                    type:'travel'      },
 ];
 
 let sb=null,currentUser=null,projects=[],log=[],timers=[],selectedPhaseIdx=null;
 let currentMode='timer',historyView='today',pendingLogTimerId=null,authMode='signin';
 let initDone=false,currentView='tracker';
 
-async function init() {
+async function init(){
   document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   const safetyNet=setTimeout(()=>{if(!initDone){initDone=true;showAuth();}},4000);
-  try {
+  try{
     sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,storageKey:'hh_auth_v2',storage:window.localStorage,autoRefreshToken:true,detectSessionInUrl:false}});
     const session=await Promise.race([
       sb.auth.getSession().then(r=>r.data.session),
@@ -428,7 +411,7 @@ async function init() {
     ]);
     clearTimeout(safetyNet);initDone=true;
     if(session){await onSignedIn(session.user);}else{showAuth();}
-  } catch(e){
+  }catch(e){
     console.warn('H+H init:',e.message);
     clearTimeout(safetyNet);
     if(!initDone){initDone=true;showAuth();}
@@ -480,7 +463,7 @@ async function handleAuth(){
       errEl.textContent=result.error.message;btn.disabled=false;
       btn.textContent=authMode==='signin'?'Sign In':'Create Account';
     }else if(authMode==='signup'&&!result.data.session){
-      errEl.style.color='var(--green)';errEl.textContent='Check your email to confirm your account, then sign in.';
+      errEl.style.color='var(--green)';errEl.textContent='Check your email to confirm, then sign in.';
       btn.disabled=false;btn.textContent='Sign In';authMode='signin';
     }else{
       if(remember)localStorage.setItem('hh_saved_email',email);
@@ -535,11 +518,22 @@ async function loadFromCloud(){
   try{
     const{data:proj}=await sb.from('projects').select('*').order('name');
     projects=(proj||[]).map(p=>({id:p.id,name:p.name,client:p.client||'',estimated_hours:p.estimated_hours||0}));
-    const{data:entries}=await sb.from('time_entries').select('*').order('created_at',{ascending:true});
-    log=(entries||[]).map(e=>({id:e.id,date:e.date,designer:e.designer_name,project:e.project_name,client:e.client_name||'',phase:e.category,phaseType:e.bucket_class,hours:e.hours,notes:e.notes||'',method:e.method}));
+    const{data:entries}=await sb.from('time_entries').select('*').eq('user_id',currentUser.id).order('created_at',{ascending:true});
+    log=(entries||[]).map(mapEntry);
     timers=loadTimersLocal();
     setSyncStatus('synced','Synced');
   }catch(e){setSyncStatus('error','Offline');loadLocal();}
+}
+
+async function loadAllEntries(){
+  try{
+    const{data:entries}=await sb.from('time_entries').select('*').order('created_at',{ascending:true});
+    return(entries||[]).map(mapEntry);
+  }catch(e){return log;}
+}
+
+function mapEntry(e){
+  return{id:e.id,date:e.date,designer:e.designer_name,project:e.project_name,client:e.client_name||'',phase:e.category,phaseType:e.bucket_class,hours:e.hours,notes:e.notes||'',method:e.method};
 }
 
 async function saveEntryToCloud(entry){
@@ -554,7 +548,14 @@ async function saveEntryToCloud(entry){
 
 async function updateEntryInCloud(id,fields){
   if(!sb||!currentUser)return;
-  try{await sb.from('time_entries').update(fields).eq('id',id);}catch(e){}
+  const dbFields={};
+  if(fields.notes!==undefined)dbFields.notes=fields.notes;
+  if(fields.hours!==undefined)dbFields.hours=fields.hours;
+  if(fields.project!==undefined)dbFields.project_name=fields.project;
+  if(fields.client!==undefined)dbFields.client_name=fields.client;
+  if(fields.phase!==undefined)dbFields.category=fields.phase;
+  if(fields.phaseType!==undefined){dbFields.bucket=fields.phaseType;dbFields.bucket_class=fields.phaseType;}
+  try{await sb.from('time_entries').update(dbFields).eq('id',id);}catch(e){}
 }
 
 async function deleteEntryFromCloud(id){
@@ -597,7 +598,7 @@ function renderProjectSelect(){
 }
 
 function renderPhasePills(){
-  document.getElementById('phasePills').innerHTML=phases.map((p,i)=>`<div class="phase-pill" id="pill_${i}" onclick="selectPhase(${i})">${p.icon} ${p.label}</div>`).join('');
+  document.getElementById('phasePills').innerHTML=phases.map((p,i)=>`<div class="phase-pill" id="pill_${i}" onclick="selectPhase(${i})">${p.label}</div>`).join('');
   if(selectedPhaseIdx!==null){const el=document.getElementById('pill_'+selectedPhaseIdx);if(el)el.classList.add('sel-'+phases[selectedPhaseIdx].type);}
 }
 
@@ -654,20 +655,20 @@ function startTimer(){
   timers.push({id:Date.now(),projectIdx:projIdx,phaseIdx:selectedPhaseIdx,accumulated:0,startedAt:Date.now(),running:true});
   saveTimersLocal();
   document.getElementById('formProject').value='';
-  selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderTimers();showToast('Timer started ▶');
+  selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderTimers();showToast('Timer started');
 }
 
 function pauseTimer(id,silent){
   const t=timers.find(x=>x.id===id);if(!t||!t.running)return;
   t.accumulated+=Date.now()-t.startedAt;t.startedAt=null;t.running=false;
-  saveTimersLocal();if(!silent){renderTimers();showToast('Paused ⏸');}
+  saveTimersLocal();if(!silent){renderTimers();showToast('Paused');}
 }
 
 function resumeTimer(id){
   timers.forEach(t=>{if(t.running&&t.id!==id)pauseTimer(t.id,true);});
   const t=timers.find(x=>x.id===id);if(!t||t.running)return;
   t.startedAt=Date.now();t.running=true;
-  saveTimersLocal();renderTimers();showToast('Resumed ▶');
+  saveTimersLocal();renderTimers();showToast('Resumed');
 }
 
 function getMs(t){return t.accumulated+(t.running?Date.now()-t.startedAt:0);}
@@ -709,18 +710,18 @@ function renderTimers(){
   const list=document.getElementById('timersList');if(!list)return;
   const rc=timers.filter(t=>t.running).length;
   document.getElementById('runningStatus').innerHTML=rc?`<div class="running-pulse"><div class="pulse-dot"></div>${rc} running</div>`:'';
-  if(!timers.length){list.innerHTML=`<div class="empty-timers"><div class="empty-timers-icon">⏱</div><div class="empty-timers-text">No timers running</div><div class="empty-timers-sub">Use Live Timer mode to begin</div></div>`;return;}
+  if(!timers.length){list.innerHTML=`<div class="empty-timers"><div class="empty-timers-text">No timers running</div><div class="empty-timers-sub">Use Live Timer mode to begin</div></div>`;return;}
   list.innerHTML=timers.map(t=>{
     const p=projects[t.projectIdx],ph=phases[t.phaseIdx];if(!p||!ph)return'';
     return`<div class="timer-card ${t.running?'running':''}" id="tcard_${t.id}">
       <div class="timer-top">
-        <div><div class="timer-project">${p.name}</div><div class="timer-meta"><span class="timer-cat">${ph.icon} ${ph.label}</span><span class="phase-badge badge-${ph.type}">${ph.type}</span></div></div>
+        <div><div class="timer-project">${p.name}</div><div class="timer-meta"><span class="timer-cat">${ph.label}</span><span class="phase-badge badge-${ph.type}">${ph.type}</span></div></div>
         <div class="timer-display" id="tdisp_${t.id}">${fmtMs(getMs(t))}</div>
       </div>
       <div class="timer-controls">
-        ${t.running?`<button class="ctrl-btn pause" onclick="pauseTimer(${t.id})">⏸ Pause</button>`:`<button class="ctrl-btn run" onclick="resumeTimer(${t.id})">▶ Resume</button>`}
-        <button class="ctrl-btn log-it" onclick="openLogModal(${t.id})">✓ Log</button>
-        <button class="ctrl-btn discard" onclick="discardTimer(${t.id})">✕</button>
+        ${t.running?`<button class="ctrl-btn pause" onclick="pauseTimer(${t.id})">Pause</button>`:`<button class="ctrl-btn run" onclick="resumeTimer(${t.id})">Resume</button>`}
+        <button class="ctrl-btn log-it" onclick="openLogModal(${t.id})">Log</button>
+        <button class="ctrl-btn discard" onclick="discardTimer(${t.id})">Discard</button>
       </div>
     </div>`;
   }).join('');
@@ -747,7 +748,7 @@ function filterLog(){
 function renderLog(){
   const tbody=document.getElementById('logBody');if(!tbody)return;
   const filtered=[...filterLog()].reverse();
-  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="9" class="empty-log-row">No entries for this period</td></tr>`;updateTotals();return;}
+  if(!filtered.length){tbody.innerHTML=`<tr><td colspan="8" class="empty-log-row">No entries for this period</td></tr>`;updateTotals();return;}
   tbody.innerHTML=filtered.map(e=>`
     <tr id="row_${e.id}">
       <td style="font-size:10px;color:var(--warm-gray);white-space:nowrap;">${e.date}</td>
@@ -755,31 +756,53 @@ function renderLog(){
       <td><strong style="font-size:12px;">${e.project}</strong>${e.client?`<br><span style="font-size:10px;color:var(--warm-gray)">${e.client}</span>`:''}</td>
       <td style="font-size:11px;">${e.phase||'—'}</td>
       <td><span class="phase-badge badge-${e.phaseType||'billable'}">${e.phaseType||'billable'}</span></td>
-      <td><span class="method-badge method-${e.method}">${e.method==='timer'?'⏱':'✏️'}</span></td>
-      <td id="hrs_${e.id}"><strong>${e.hours}h</strong></td>
-      <td id="notes_${e.id}" style="color:var(--warm-gray);font-size:11px;max-width:120px;">${e.notes||'—'}</td>
-      <td style="white-space:nowrap;"><button class="edit-btn" onclick="startEdit('${e.id}')" title="Edit">✎</button><button class="delete-btn" onclick="deleteEntry('${e.id}')">✕</button></td>
+      <td><strong>${e.hours}h</strong></td>
+      <td style="color:var(--warm-gray);font-size:11px;max-width:120px;">${e.notes||'—'}</td>
+      <td style="white-space:nowrap;">
+        <button class="edit-btn" onclick="startEdit('${e.id}')">Edit</button>
+        <button class="delete-btn" onclick="deleteEntry('${e.id}')">✕</button>
+      </td>
     </tr>`).join('');
   updateTotals();
 }
 
+function projectOptions(selected){
+  return projects.map((p,i)=>`<option value="${i}" ${p.name===selected?'selected':''}>${p.name}${p.client?' · '+p.client:''}</option>`).join('');
+}
+function phaseOptions(selected){
+  return phases.map((p,i)=>`<option value="${i}" ${p.label===selected?'selected':''}>${p.label}</option>`).join('');
+}
+
 function startEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
-  document.getElementById('notes_'+id).innerHTML=`<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;">
-    <input class="inline-edit-input" id="editNotes_${id}" value="${(entry.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." style="flex:1;min-width:80px;">
-    <input class="inline-edit-input" id="editHrs_${id}" type="number" step="0.25" min="0.25" max="24" value="${entry.hours}" style="width:58px;">
-    <button class="inline-save-btn" onclick="saveEdit('${id}')">Save</button>
-    <button class="inline-cancel-btn" onclick="renderLog()">✕</button>
-  </div>`;
-  document.getElementById('hrs_'+id).innerHTML='';
+  const row=document.getElementById('row_'+id);if(!row)return;
+  row.classList.add('editing');
+  row.innerHTML=`
+    <td style="font-size:10px;color:var(--warm-gray);white-space:nowrap;">${entry.date}</td>
+    <td style="font-size:11px;color:var(--warm-gray);">${entry.designer||'—'}</td>
+    <td><select class="ie-select" id="ep_${id}">${projectOptions(entry.project)}</select></td>
+    <td><select class="ie-select" id="eph_${id}">${phaseOptions(entry.phase)}</select></td>
+    <td></td>
+    <td><input class="ie-input" id="eh_${id}" type="number" step="0.25" min="0.25" max="24" value="${entry.hours}" style="width:54px;"></td>
+    <td><input class="ie-input" id="en_${id}" value="${(entry.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." style="min-width:90px;"></td>
+    <td style="white-space:nowrap;">
+      <button class="ie-save" onclick="saveEdit('${id}')">Save</button>
+      <button class="ie-cancel" onclick="renderLog()">Cancel</button>
+    </td>`;
 }
 
 async function saveEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
-  const newNotes=document.getElementById('editNotes_'+id).value.trim();
-  const newHours=parseFloat(document.getElementById('editHrs_'+id).value)||entry.hours;
-  entry.notes=newNotes;entry.hours=newHours;
-  if(sb&&currentUser)await updateEntryInCloud(id,{notes:newNotes,hours:newHours});
+  const projIdx=parseInt(document.getElementById('ep_'+id).value);
+  const phaseIdx=parseInt(document.getElementById('eph_'+id).value);
+  const newHours=parseFloat(document.getElementById('eh_'+id).value)||entry.hours;
+  const newNotes=document.getElementById('en_'+id).value.trim();
+  const p=projects[projIdx];const ph=phases[phaseIdx];
+  if(!p||!ph)return;
+  entry.project=p.name;entry.client=p.client||'';
+  entry.phase=ph.label;entry.phaseType=ph.type;
+  entry.hours=newHours;entry.notes=newNotes;
+  if(sb&&currentUser)await updateEntryInCloud(id,{project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours:newHours,notes:newNotes});
   renderLog();showToast('Entry updated ✓');
 }
 
@@ -800,45 +823,56 @@ function updateTotals(){
   document.getElementById('travelVal').textContent=fmtMsShort(travel);
 }
 
-function renderDashboard(){
-  const totalH=log.reduce((s,e)=>s+e.hours,0);
-  const billableH=log.filter(e=>e.phaseType!=='nonbillable'&&e.phaseType!=='travel').reduce((s,e)=>s+e.hours,0);
-  const travelH=log.filter(e=>e.phaseType==='travel').reduce((s,e)=>s+e.hours,0);
-  const nonbillableH=log.filter(e=>e.phaseType==='nonbillable').reduce((s,e)=>s+e.hours,0);
+async function renderDashboard(){
+  const allEntries=await loadAllEntries();
+  const totalH=allEntries.reduce((s,e)=>s+e.hours,0);
+  const billableH=allEntries.filter(e=>e.phaseType!=='nonbillable'&&e.phaseType!=='travel').reduce((s,e)=>s+e.hours,0);
+  const travelH=allEntries.filter(e=>e.phaseType==='travel').reduce((s,e)=>s+e.hours,0);
+  const nonbillableH=allEntries.filter(e=>e.phaseType==='nonbillable').reduce((s,e)=>s+e.hours,0);
   document.getElementById('dashStats').innerHTML=`
     <div class="dash-stat"><div class="dash-stat-lbl">Total Hours Logged</div><div class="dash-stat-val">${totalH.toFixed(1)}h</div><div class="dash-stat-sub">All time · all designers</div></div>
     <div class="dash-stat"><div class="dash-stat-lbl">Billable Hours</div><div class="dash-stat-val" style="color:var(--gold)">${billableH.toFixed(1)}h</div><div class="dash-stat-sub">${totalH>0?(billableH/totalH*100).toFixed(0):0}% of total</div></div>
     <div class="dash-stat"><div class="dash-stat-lbl">Travel Hours</div><div class="dash-stat-val" style="color:var(--sage)">${travelH.toFixed(1)}h</div><div class="dash-stat-sub">Billed at 50% rate</div></div>
     <div class="dash-stat"><div class="dash-stat-lbl">Non-Billable Hours</div><div class="dash-stat-val" style="color:var(--warm-gray)">${nonbillableH.toFixed(1)}h</div><div class="dash-stat-sub">Internal coordination</div></div>
-    <div class="dash-stat"><div class="dash-stat-lbl">Active Projects</div><div class="dash-stat-val">${projects.length}</div><div class="dash-stat-sub">${projects.filter(p=>p.estimated_hours>0).length} with hour estimates</div></div>
-    <div class="dash-stat"><div class="dash-stat-lbl">Designers Logging</div><div class="dash-stat-val">${[...new Set(log.map(e=>e.designer))].filter(Boolean).length}</div><div class="dash-stat-sub">Active contributors</div></div>`;
+    <div class="dash-stat"><div class="dash-stat-lbl">Active Projects</div><div class="dash-stat-val">${projects.length}</div><div class="dash-stat-sub">${projects.filter(p=>p.estimated_hours>0).length} with estimates</div></div>
+    <div class="dash-stat"><div class="dash-stat-lbl">Designers Logging</div><div class="dash-stat-val">${[...new Set(allEntries.map(e=>e.designer))].filter(Boolean).length}</div><div class="dash-stat-sub">Active contributors</div></div>`;
 
   const projMap={};
-  log.forEach(e=>{if(!projMap[e.project])projMap[e.project]={billable:0,nonbillable:0,travel:0,client:e.client};if(e.phaseType==='travel')projMap[e.project].travel+=e.hours;else if(e.phaseType==='nonbillable')projMap[e.project].nonbillable+=e.hours;else projMap[e.project].billable+=e.hours;});
-
+  allEntries.forEach(e=>{if(!projMap[e.project])projMap[e.project]={billable:0,nonbillable:0,travel:0,client:e.client};if(e.phaseType==='travel')projMap[e.project].travel+=e.hours;else if(e.phaseType==='nonbillable')projMap[e.project].nonbillable+=e.hours;else projMap[e.project].billable+=e.hours;});
   const projRows=projects.map(p=>{
     const d=projMap[p.name]||{billable:0,nonbillable:0,travel:0};
     const est=p.estimated_hours||0;const pct=est>0?Math.min((d.billable/est)*100,150):0;const over=est>0&&d.billable>est;
-    return`<tr><td><strong>${p.name}</strong></td><td style="color:var(--warm-gray);font-size:11px;">${p.client||'—'}</td><td>${est>0?est+'h':'—'}</td><td style="color:var(--gold);font-weight:600;">${d.billable.toFixed(1)}h</td><td style="color:var(--warm-gray);">${d.nonbillable.toFixed(1)}h</td><td style="color:var(--sage);">${d.travel.toFixed(1)}h</td><td style="min-width:120px;">${est>0?`<div class="progress-bar-wrap"><div class="progress-bar-fill${over?' over':''}" style="width:${pct}%"></div></div><div class="proj-pct" style="color:${over?'var(--rust)':'var(--warm-gray)'}">${(d.billable/est*100).toFixed(0)}%${over?' ⚠️':''}</div>`:'<span style="font-size:10px;color:var(--warm-gray)">No estimate</span>'}</td></tr>`;
+    return`<tr><td><strong>${p.name}</strong></td><td style="color:var(--warm-gray);font-size:11px;">${p.client||'—'}</td><td>${est>0?est+'h':'—'}</td><td style="color:var(--gold);font-weight:600;">${d.billable.toFixed(1)}h</td><td style="color:var(--warm-gray);">${d.nonbillable.toFixed(1)}h</td><td style="color:var(--sage);">${d.travel.toFixed(1)}h</td><td style="min-width:120px;">${est>0?`<div class="progress-bar-wrap"><div class="progress-bar-fill${over?' over':''}" style="width:${pct}%"></div></div><div class="proj-pct" style="color:${over?'var(--rust)':'var(--warm-gray)'}">${(d.billable/est*100).toFixed(0)}%${over?' !':''}</div>`:'<span style="font-size:10px;color:var(--warm-gray)">No estimate</span>'}</td></tr>`;
   });
   Object.keys(projMap).forEach(name=>{if(!projects.find(p=>p.name===name)){const d=projMap[name];projRows.push(`<tr><td><strong>${name}</strong></td><td style="color:var(--warm-gray);font-size:11px;">${d.client||'—'}</td><td>—</td><td style="color:var(--gold);font-weight:600;">${d.billable.toFixed(1)}h</td><td style="color:var(--warm-gray);">${d.nonbillable.toFixed(1)}h</td><td style="color:var(--sage);">${d.travel.toFixed(1)}h</td><td><span style="font-size:10px;color:var(--warm-gray)">No estimate</span></td></tr>`);}});
   document.getElementById('dashProjBody').innerHTML=projRows.length?projRows.join(''):'<tr><td colspan="7" class="empty-log-row">No entries yet</td></tr>';
 
   const desMap={};
-  log.forEach(e=>{const d=e.designer||'Unknown';if(!desMap[d])desMap[d]={billable:0,nonbillable:0,travel:0};if(e.phaseType==='travel')desMap[d].travel+=e.hours;else if(e.phaseType==='nonbillable')desMap[d].nonbillable+=e.hours;else desMap[d].billable+=e.hours;});
+  allEntries.forEach(e=>{const d=e.designer||'Unknown';if(!desMap[d])desMap[d]={billable:0,nonbillable:0,travel:0};if(e.phaseType==='travel')desMap[d].travel+=e.hours;else if(e.phaseType==='nonbillable')desMap[d].nonbillable+=e.hours;else desMap[d].billable+=e.hours;});
   document.getElementById('dashDesignerBody').innerHTML=Object.entries(desMap).map(([name,d])=>`<tr><td><strong>${name}</strong></td><td style="color:var(--gold);font-weight:600;">${d.billable.toFixed(1)}h</td><td style="color:var(--warm-gray);">${d.nonbillable.toFixed(1)}h</td><td style="color:var(--sage);">${d.travel.toFixed(1)}h</td><td><strong>${(d.billable+d.nonbillable+d.travel).toFixed(1)}h</strong></td></tr>`).join('')||'<tr><td colspan="5" class="empty-log-row">No entries yet</td></tr>';
+}
+
+function buildCSV(entries){
+  const headers=['Date','Designer','Client','Project','Phase','Billable Type','Hours (Decimal)','Travel Rate Multiplier','Notes'];
+  const rows=entries.map(e=>[e.date,e.designer,e.client,e.project,e.phase||'',e.phaseType==='nonbillable'?'Non-Billable':e.phaseType==='travel'?'Travel':'Billable',e.hours,e.phaseType==='travel'?'0.5':'1.0',`"${(e.notes||'').replace(/"/g,'""')}"`]);
+  return[headers,...rows].map(r=>r.join(',')).join('\n');
 }
 
 function exportCSV(){
   const all=[...filterLog()];
-  if(historyView==='today')timers.forEach(t=>{const ms=getMs(t);if(ms<5000)return;const p=projects[t.projectIdx],ph=phases[t.phaseIdx];all.push({date:todayStr(),designer:currentUser?currentUser.email.split('@')[0]:'',project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours:+(ms/3600000).toFixed(2),notes:'[In Progress]',method:'timer'});});
   if(!all.length){showToast('Nothing to export');return;}
-  const headers=['Date','Designer','Client','Project','Phase','Billable Type','Hours (Decimal)','Travel Rate Multiplier','Notes'];
-  const rows=all.map(e=>[e.date,e.designer,e.client,e.project,e.phase||'',e.phaseType==='nonbillable'?'Non-Billable':e.phaseType==='travel'?'Travel':'Billable',e.hours,e.phaseType==='travel'?'0.5':'1.0',`"${(e.notes||'').replace(/"/g,'""')}"`]);
-  const csv=[headers,...rows].map(r=>r.join(',')).join('\n');
-  const url=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const url=URL.createObjectURL(new Blob([buildCSV(all)],{type:'text/csv'}));
   const a=document.createElement('a');a.href=url;a.download=`HH_TimeLog_${new Date().toISOString().slice(0,10)}.csv`;a.click();
   URL.revokeObjectURL(url);showToast('CSV exported ✓');
+}
+
+async function exportAllCSV(){
+  showToast('Preparing export…');
+  const all=await loadAllEntries();
+  if(!all.length){showToast('Nothing to export');return;}
+  const url=URL.createObjectURL(new Blob([buildCSV(all)],{type:'text/csv'}));
+  const a=document.createElement('a');a.href=url;a.download=`HH_AllEntries_${new Date().toISOString().slice(0,10)}.csv`;a.click();
+  URL.revokeObjectURL(url);showToast('Export ready ✓');
 }
 
 function todayStr(){return new Date().toLocaleDateString('en-US');}
