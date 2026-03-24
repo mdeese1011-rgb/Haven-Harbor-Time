@@ -50,7 +50,6 @@
   .signout-btn:hover{color:rgba(255,255,255,.8);}
   .icon-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:7px;color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;padding:5px 9px;display:flex;align-items:center;transition:all .2s;font-family:'DM Sans',sans-serif;}
   .icon-btn:hover{background:rgba(255,255,255,.18);}
-
   .nav-tabs{display:flex;background:rgba(255,255,255,.06);border-radius:8px;padding:3px;gap:2px;}
   .nav-tab{padding:5px 14px;border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;border-radius:6px;transition:all .2s;}
   .nav-tab.active{background:var(--gold);color:#fff;}
@@ -58,7 +57,6 @@
   .app{max-width:1140px;margin:0 auto;padding:20px 16px 40px;}
   @media(min-width:820px){.app{display:grid;grid-template-columns:320px 1fr;gap:22px;padding:28px 24px 60px;align-items:start;}}
   .left-panel,.right-panel{display:flex;flex-direction:column;gap:14px;}
-
   .card{background:var(--warm-white);border:1.5px solid var(--divider);border-radius:14px;overflow:hidden;margin-bottom:14px;}
   @media(min-width:820px){.card{margin-bottom:0;}}
   .card-header{padding:12px 16px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;}
@@ -415,7 +413,7 @@ const phases = [
   { label:'Travel',                    icon:'🚗', type:'travel'      },
 ];
 
-let supabase=null,currentUser=null,projects=[],log=[],timers=[],selectedPhaseIdx=null;
+let sb=null,currentUser=null,projects=[],log=[],timers=[],selectedPhaseIdx=null;
 let currentMode='timer',historyView='today',pendingLogTimerId=null,authMode='signin';
 let initDone=false,currentView='tracker';
 
@@ -423,14 +421,14 @@ async function init() {
   document.getElementById('headerDate').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
   const safetyNet=setTimeout(()=>{if(!initDone){initDone=true;showAuth();}},4000);
   try {
-    supabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,storageKey:'hh_auth_v2',storage:window.localStorage,autoRefreshToken:true,detectSessionInUrl:false}});
+    sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,storageKey:'hh_auth_v2',storage:window.localStorage,autoRefreshToken:true,detectSessionInUrl:false}});
     const session=await Promise.race([
-      supabase.auth.getSession().then(r=>r.data.session),
+      sb.auth.getSession().then(r=>r.data.session),
       new Promise((_,reject)=>setTimeout(()=>reject(new Error('timeout')),3000))
     ]);
-    clearTimeout(safetyNet); initDone=true;
+    clearTimeout(safetyNet);initDone=true;
     if(session){await onSignedIn(session.user);}else{showAuth();}
-  } catch(e) {
+  } catch(e){
     console.warn('H+H init:',e.message);
     clearTimeout(safetyNet);
     if(!initDone){initDone=true;showAuth();}
@@ -439,7 +437,7 @@ async function init() {
   setInterval(()=>{if(currentUser)saveTimersLocal();},10000);
 }
 
-function switchView(view) {
+function switchView(view){
   currentView=view;
   document.getElementById('navTracker').classList.toggle('active',view==='tracker');
   document.getElementById('navDashboard').classList.toggle('active',view==='dashboard');
@@ -448,14 +446,14 @@ function switchView(view) {
   if(view==='dashboard')renderDashboard();
 }
 
-function showAuth() {
+function showAuth(){
   document.getElementById('loadingScreen').style.display='none';
   document.getElementById('authScreen').style.display='flex';
   const saved=localStorage.getItem('hh_saved_email');
   if(saved)document.getElementById('authEmail').value=saved;
 }
 
-function toggleAuthMode() {
+function toggleAuthMode(){
   authMode=authMode==='signin'?'signup':'signin';
   document.getElementById('authSub').textContent=authMode==='signin'?'Sign in to continue':'Create your account';
   document.getElementById('authSubmitBtn').textContent=authMode==='signin'?'Sign In':'Create Account';
@@ -465,7 +463,7 @@ function toggleAuthMode() {
   document.getElementById('authError').textContent='';
 }
 
-async function handleAuth() {
+async function handleAuth(){
   const email=document.getElementById('authEmail').value.trim();
   const password=document.getElementById('authPassword').value;
   const remember=document.getElementById('rememberMe').checked;
@@ -474,37 +472,37 @@ async function handleAuth() {
   errEl.textContent='';
   if(!email||!password){errEl.textContent='Please enter email and password.';return;}
   btn.disabled=true;btn.textContent=authMode==='signin'?'Signing in…':'Creating account…';
-  try {
+  try{
     let result;
-    if(authMode==='signin'){result=await supabase.auth.signInWithPassword({email,password});}
-    else{result=await supabase.auth.signUp({email,password});}
+    if(authMode==='signin'){result=await sb.auth.signInWithPassword({email,password});}
+    else{result=await sb.auth.signUp({email,password});}
     if(result.error){
       errEl.textContent=result.error.message;btn.disabled=false;
       btn.textContent=authMode==='signin'?'Sign In':'Create Account';
-    } else if(authMode==='signup'&&!result.data.session){
+    }else if(authMode==='signup'&&!result.data.session){
       errEl.style.color='var(--green)';errEl.textContent='Check your email to confirm your account, then sign in.';
       btn.disabled=false;btn.textContent='Sign In';authMode='signin';
-    } else {
+    }else{
       if(remember)localStorage.setItem('hh_saved_email',email);
       else localStorage.removeItem('hh_saved_email');
       await onSignedIn(result.data.user||result.data.session.user);
     }
-  } catch(e){
+  }catch(e){
     errEl.textContent='Connection error. Try again.';btn.disabled=false;
     btn.textContent=authMode==='signin'?'Sign In':'Create Account';
   }
 }
 
-async function onSignedIn(user) {
+async function onSignedIn(user){
   currentUser=user;
   document.getElementById('authScreen').style.display='none';
   await loadFromCloud();
   showApp(user);
 }
 
-async function signOut() {
+async function signOut(){
   saveTimersLocal();
-  if(supabase)await supabase.auth.signOut();
+  if(sb)await sb.auth.signOut();
   currentUser=null;timers=[];log=[];projects=[];
   document.getElementById('mainHeader').style.display='none';
   document.getElementById('trackerView').style.display='none';
@@ -512,7 +510,7 @@ async function signOut() {
   showAuth();
 }
 
-async function refreshApp() {
+async function refreshApp(){
   if(!currentUser)return;
   showToast('Refreshing…');
   await loadFromCloud();
@@ -521,7 +519,7 @@ async function refreshApp() {
   showToast('Refreshed ✓');
 }
 
-function showApp(user) {
+function showApp(user){
   document.getElementById('loadingScreen').style.display='none';
   document.getElementById('mainHeader').style.display='flex';
   document.getElementById('trackerView').style.display='block';
@@ -532,47 +530,47 @@ function showApp(user) {
   setSyncStatus('synced','Synced');
 }
 
-async function loadFromCloud() {
+async function loadFromCloud(){
   setSyncStatus('syncing','Loading…');
-  try {
-    const{data:proj}=await supabase.from('projects').select('*').order('name');
+  try{
+    const{data:proj}=await sb.from('projects').select('*').order('name');
     projects=(proj||[]).map(p=>({id:p.id,name:p.name,client:p.client||'',estimated_hours:p.estimated_hours||0}));
-    const{data:entries}=await supabase.from('time_entries').select('*').order('created_at',{ascending:true});
+    const{data:entries}=await sb.from('time_entries').select('*').order('created_at',{ascending:true});
     log=(entries||[]).map(e=>({id:e.id,date:e.date,designer:e.designer_name,project:e.project_name,client:e.client_name||'',phase:e.category,phaseType:e.bucket_class,hours:e.hours,notes:e.notes||'',method:e.method}));
     timers=loadTimersLocal();
     setSyncStatus('synced','Synced');
-  } catch(e){setSyncStatus('error','Offline');loadLocal();}
+  }catch(e){setSyncStatus('error','Offline');loadLocal();}
 }
 
-async function saveEntryToCloud(entry) {
-  if(!supabase||!currentUser)return;
+async function saveEntryToCloud(entry){
+  if(!sb||!currentUser)return;
   setSyncStatus('syncing','Saving…');
-  try {
-    const{data,error}=await supabase.from('time_entries').insert({user_id:currentUser.id,designer_name:entry.designer,date:entry.date,project_name:entry.project,client_name:entry.client,category:entry.phase,bucket:entry.phaseType,bucket_class:entry.phaseType,hours:entry.hours,notes:entry.notes,method:entry.method}).select().single();
+  try{
+    const{data,error}=await sb.from('time_entries').insert({user_id:currentUser.id,designer_name:entry.designer,date:entry.date,project_name:entry.project,client_name:entry.client,category:entry.phase,bucket:entry.phaseType,bucket_class:entry.phaseType,hours:entry.hours,notes:entry.notes,method:entry.method}).select().single();
     if(!error&&data)entry.id=data.id;
     setSyncStatus('synced','Saved ✓');
-  } catch(e){setSyncStatus('error','Save failed');}
+  }catch(e){setSyncStatus('error','Save failed');}
 }
 
-async function updateEntryInCloud(id,fields) {
-  if(!supabase||!currentUser)return;
-  try{await supabase.from('time_entries').update(fields).eq('id',id);}catch(e){}
+async function updateEntryInCloud(id,fields){
+  if(!sb||!currentUser)return;
+  try{await sb.from('time_entries').update(fields).eq('id',id);}catch(e){}
 }
 
-async function deleteEntryFromCloud(id) {
-  if(!supabase||!currentUser)return;
-  try{await supabase.from('time_entries').delete().eq('id',id);}catch(e){}
+async function deleteEntryFromCloud(id){
+  if(!sb||!currentUser)return;
+  try{await sb.from('time_entries').delete().eq('id',id);}catch(e){}
 }
 
-async function saveProjectToCloud(project) {
-  if(!supabase)return;
-  try {
-    const{data}=await supabase.from('projects').insert({name:project.name,client:project.client,estimated_hours:project.estimated_hours||0}).select().single();
+async function saveProjectToCloud(project){
+  if(!sb)return;
+  try{
+    const{data}=await sb.from('projects').insert({name:project.name,client:project.client,estimated_hours:project.estimated_hours||0}).select().single();
     if(data)project.id=data.id;
-  } catch(e){}
+  }catch(e){}
 }
 
-function loadLocal() {
+function loadLocal(){
   try{projects=JSON.parse(localStorage.getItem('hh_projects'))||[];}catch(e){projects=[];}
   try{log=JSON.parse(localStorage.getItem('hh_log'))||[];}catch(e){log=[];}
   timers=loadTimersLocal();
@@ -582,7 +580,7 @@ function saveTimersLocal(){const s=timers.map(t=>({...t,accumulated:getMs(t),sta
 
 function setSyncStatus(state,label){const d=document.getElementById('syncDot');if(!d)return;d.className='sync-dot '+state;document.getElementById('syncLabel').textContent=label;}
 
-function switchMode(mode) {
+function switchMode(mode){
   currentMode=mode;
   document.getElementById('tab-timer').classList.toggle('active',mode==='timer');
   document.getElementById('tab-manual').classList.toggle('active',mode==='manual');
@@ -591,25 +589,25 @@ function switchMode(mode) {
   selectedPhaseIdx=null;renderPhasePills();checkActionBtn();
 }
 
-function renderProjectSelect() {
+function renderProjectSelect(){
   const sel=document.getElementById('formProject');if(!sel)return;
   const prev=sel.value;
   sel.innerHTML='<option value="">— Select project —</option>'+projects.map((p,i)=>`<option value="${i}">${p.name}${p.client?' · '+p.client:''}</option>`).join('');
   if(prev)sel.value=prev;
 }
 
-function renderPhasePills() {
+function renderPhasePills(){
   document.getElementById('phasePills').innerHTML=phases.map((p,i)=>`<div class="phase-pill" id="pill_${i}" onclick="selectPhase(${i})">${p.icon} ${p.label}</div>`).join('');
   if(selectedPhaseIdx!==null){const el=document.getElementById('pill_'+selectedPhaseIdx);if(el)el.classList.add('sel-'+phases[selectedPhaseIdx].type);}
 }
 
-function selectPhase(i) {
+function selectPhase(i){
   selectedPhaseIdx=i;
   phases.forEach((_,j)=>{document.getElementById('pill_'+j).className='phase-pill'+(j===i?' sel-'+phases[j].type:'');});
   checkActionBtn();
 }
 
-function checkActionBtn() {
+function checkActionBtn(){
   const projOk=document.getElementById('formProject').value!=='';
   const phaseOk=selectedPhaseIdx!==null;
   if(currentMode==='timer'){document.getElementById('startBtn').disabled=!(projOk&&phaseOk);}
@@ -619,14 +617,14 @@ function checkActionBtn() {
 function setTime(h,m){document.getElementById('manHours').value=h;document.getElementById('manMinutes').value=m;checkActionBtn();}
 function toggleAddProject(){document.getElementById('addProjectForm').classList.toggle('open');}
 
-async function addProject() {
+async function addProject(){
   const name=document.getElementById('newProjName').value.trim();
   const client=document.getElementById('newClientName').value.trim();
   const est=parseFloat(document.getElementById('newProjEstimate').value)||0;
   if(!name){showToast('Enter a project name');return;}
   const project={name,client,estimated_hours:est};
   projects.push(project);
-  if(supabase)await saveProjectToCloud(project);
+  if(sb)await saveProjectToCloud(project);
   document.getElementById('newProjName').value='';
   document.getElementById('newClientName').value='';
   document.getElementById('newProjEstimate').value='';
@@ -634,7 +632,7 @@ async function addProject() {
   renderProjectSelect();showToast('Project added ✓');
 }
 
-async function logManual() {
+async function logManual(){
   const projIdx=parseInt(document.getElementById('formProject').value);
   const h=parseInt(document.getElementById('manHours').value)||0;
   const m=parseInt(document.getElementById('manMinutes').value)||0;
@@ -644,12 +642,12 @@ async function logManual() {
   const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
   const entry={id:Date.now(),date:todayStr(),designer,project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours,notes:document.getElementById('manNotes').value.trim(),method:'manual'};
   log.push(entry);
-  if(supabase&&currentUser)await saveEntryToCloud(entry);
+  if(sb&&currentUser)await saveEntryToCloud(entry);
   document.getElementById('manHours').value=0;document.getElementById('manMinutes').value=0;document.getElementById('manNotes').value='';
   selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderLog();showToast('Entry saved ✓');
 }
 
-function startTimer() {
+function startTimer(){
   const projIdx=parseInt(document.getElementById('formProject').value);
   if(isNaN(projIdx)||selectedPhaseIdx===null)return;
   timers.forEach(t=>{if(t.running)pauseTimer(t.id,true);});
@@ -659,13 +657,13 @@ function startTimer() {
   selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderTimers();showToast('Timer started ▶');
 }
 
-function pauseTimer(id,silent) {
+function pauseTimer(id,silent){
   const t=timers.find(x=>x.id===id);if(!t||!t.running)return;
   t.accumulated+=Date.now()-t.startedAt;t.startedAt=null;t.running=false;
   saveTimersLocal();if(!silent){renderTimers();showToast('Paused ⏸');}
 }
 
-function resumeTimer(id) {
+function resumeTimer(id){
   timers.forEach(t=>{if(t.running&&t.id!==id)pauseTimer(t.id,true);});
   const t=timers.find(x=>x.id===id);if(!t||t.running)return;
   t.startedAt=Date.now();t.running=true;
@@ -673,10 +671,10 @@ function resumeTimer(id) {
 }
 
 function getMs(t){return t.accumulated+(t.running?Date.now()-t.startedAt:0);}
-function fmtMs(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
-function fmtMsShort(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return `${h}h ${String(m).padStart(2,'0')}m`;}
+function fmtMs(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
+function fmtMsShort(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return`${h}h ${String(m).padStart(2,'0')}m`;}
 
-function openLogModal(id) {
+function openLogModal(id){
   const t=timers.find(x=>x.id===id);if(!t)return;
   if(t.running)pauseTimer(id,true);
   pendingLogTimerId=id;
@@ -687,7 +685,7 @@ function openLogModal(id) {
 }
 function cancelLog(){document.getElementById('notesModal').style.display='none';pendingLogTimerId=null;}
 
-async function confirmLog() {
+async function confirmLog(){
   const t=timers.find(x=>x.id===pendingLogTimerId);if(!t)return;
   const ms=getMs(t);
   if(ms<5000){showToast('No time to log');cancelLog();return;}
@@ -696,18 +694,18 @@ async function confirmLog() {
   const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
   const entry={id:Date.now(),date:todayStr(),designer,project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours,notes:document.getElementById('notesInput').value.trim(),method:'timer'};
   log.push(entry);
-  if(supabase&&currentUser)await saveEntryToCloud(entry);
+  if(sb&&currentUser)await saveEntryToCloud(entry);
   timers=timers.filter(x=>x.id!==pendingLogTimerId);
   saveTimersLocal();document.getElementById('notesModal').style.display='none';pendingLogTimerId=null;
   renderTimers();renderLog();showToast('Entry saved ✓');
 }
 
-function discardTimer(id) {
+function discardTimer(id){
   if(!confirm('Discard this timer?'))return;
   timers=timers.filter(x=>x.id!==id);saveTimersLocal();renderTimers();updateTotals();showToast('Timer discarded');
 }
 
-function renderTimers() {
+function renderTimers(){
   const list=document.getElementById('timersList');if(!list)return;
   const rc=timers.filter(t=>t.running).length;
   document.getElementById('runningStatus').innerHTML=rc?`<div class="running-pulse"><div class="pulse-dot"></div>${rc} running</div>`:'';
@@ -728,25 +726,25 @@ function renderTimers() {
   }).join('');
 }
 
-function tick() {
+function tick(){
   timers.forEach(t=>{if(!t.running)return;const el=document.getElementById('tdisp_'+t.id);if(el)el.textContent=fmtMs(getMs(t));});
   if(timers.length)updateTotals();
 }
 
-function setView(v) {
+function setView(v){
   historyView=v;
   ['today','week','all'].forEach(x=>document.getElementById('htab-'+x).classList.toggle('active',x===v));
   renderLog();
 }
 
-function filterLog() {
+function filterLog(){
   const today=todayStr();
   if(historyView==='today')return log.filter(e=>e.date===today);
   if(historyView==='week'){const d=new Date();d.setDate(d.getDate()-7);return log.filter(e=>new Date(e.date)>=d);}
   return log;
 }
 
-function renderLog() {
+function renderLog(){
   const tbody=document.getElementById('logBody');if(!tbody)return;
   const filtered=[...filterLog()].reverse();
   if(!filtered.length){tbody.innerHTML=`<tr><td colspan="9" class="empty-log-row">No entries for this period</td></tr>`;updateTotals();return;}
@@ -765,7 +763,7 @@ function renderLog() {
   updateTotals();
 }
 
-function startEdit(id) {
+function startEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
   document.getElementById('notes_'+id).innerHTML=`<div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap;">
     <input class="inline-edit-input" id="editNotes_${id}" value="${(entry.notes||'').replace(/"/g,'&quot;')}" placeholder="Notes..." style="flex:1;min-width:80px;">
@@ -776,23 +774,23 @@ function startEdit(id) {
   document.getElementById('hrs_'+id).innerHTML='';
 }
 
-async function saveEdit(id) {
+async function saveEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
   const newNotes=document.getElementById('editNotes_'+id).value.trim();
   const newHours=parseFloat(document.getElementById('editHrs_'+id).value)||entry.hours;
   entry.notes=newNotes;entry.hours=newHours;
-  if(supabase&&currentUser)await updateEntryInCloud(id,{notes:newNotes,hours:newHours});
+  if(sb&&currentUser)await updateEntryInCloud(id,{notes:newNotes,hours:newHours});
   renderLog();showToast('Entry updated ✓');
 }
 
-async function deleteEntry(id) {
+async function deleteEntry(id){
   if(!confirm('Delete this entry?'))return;
   log=log.filter(e=>String(e.id)!==String(id));
-  if(supabase&&currentUser)await deleteEntryFromCloud(id);
+  if(sb&&currentUser)await deleteEntryFromCloud(id);
   renderLog();
 }
 
-function updateTotals() {
+function updateTotals(){
   const today=todayStr();let total=0,billable=0,nonbillable=0,travel=0;
   log.filter(e=>e.date===today).forEach(e=>{const ms=e.hours*3600000;total+=ms;if(e.phaseType==='travel')travel+=ms;else if(e.phaseType==='nonbillable')nonbillable+=ms;else billable+=ms;});
   timers.forEach(t=>{const ms=getMs(t);total+=ms;const pt=phases[t.phaseIdx]?.type;if(pt==='travel')travel+=ms;else if(pt==='nonbillable')nonbillable+=ms;else billable+=ms;});
@@ -802,7 +800,7 @@ function updateTotals() {
   document.getElementById('travelVal').textContent=fmtMsShort(travel);
 }
 
-function renderDashboard() {
+function renderDashboard(){
   const totalH=log.reduce((s,e)=>s+e.hours,0);
   const billableH=log.filter(e=>e.phaseType!=='nonbillable'&&e.phaseType!=='travel').reduce((s,e)=>s+e.hours,0);
   const travelH=log.filter(e=>e.phaseType==='travel').reduce((s,e)=>s+e.hours,0);
@@ -831,7 +829,7 @@ function renderDashboard() {
   document.getElementById('dashDesignerBody').innerHTML=Object.entries(desMap).map(([name,d])=>`<tr><td><strong>${name}</strong></td><td style="color:var(--gold);font-weight:600;">${d.billable.toFixed(1)}h</td><td style="color:var(--warm-gray);">${d.nonbillable.toFixed(1)}h</td><td style="color:var(--sage);">${d.travel.toFixed(1)}h</td><td><strong>${(d.billable+d.nonbillable+d.travel).toFixed(1)}h</strong></td></tr>`).join('')||'<tr><td colspan="5" class="empty-log-row">No entries yet</td></tr>';
 }
 
-function exportCSV() {
+function exportCSV(){
   const all=[...filterLog()];
   if(historyView==='today')timers.forEach(t=>{const ms=getMs(t);if(ms<5000)return;const p=projects[t.projectIdx],ph=phases[t.phaseIdx];all.push({date:todayStr(),designer:currentUser?currentUser.email.split('@')[0]:'',project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours:+(ms/3600000).toFixed(2),notes:'[In Progress]',method:'timer'});});
   if(!all.length){showToast('Nothing to export');return;}
