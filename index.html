@@ -125,11 +125,18 @@ header{background:var(--charcoal);padding:0 16px;display:flex;align-items:center
 .ctrl-btn.pause{background:var(--gold);color:#fff;border-color:var(--gold);}
 .ctrl-btn.log-it{background:var(--charcoal);color:var(--gold-light);border-color:var(--charcoal);}
 .ctrl-btn.discard{color:var(--rust);border-color:transparent;background:transparent;margin-left:auto;}
+.ctrl-btn.edit-start{color:var(--gold);border-color:var(--gold);}
 .running-pulse{display:inline-flex;align-items:center;gap:5px;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--green);font-weight:600;}
 .pulse-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.4s ease-in-out infinite;}
 .empty-timers{text-align:center;padding:36px 20px;color:var(--warm-gray);}
 .empty-timers-text{font-size:14px;font-weight:500;margin-bottom:3px;}
 .empty-timers-sub{font-size:12px;opacity:.7;}
+.edit-start-panel{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1.5px solid var(--gold);}
+.edit-start-label{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--warm-gray);font-weight:600;margin-bottom:6px;display:block;}
+.edit-start-input{width:100%;padding:8px 10px;font-size:13px;border:1.5px solid var(--divider);border-radius:7px;background:var(--warm-white);color:var(--charcoal);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:8px;}
+.edit-start-input:focus{border-color:var(--gold);}
+.edit-start-btns{display:flex;gap:6px;}
+.restored-badge{font-size:9px;background:#FBF0DC;color:#8B6E35;border:1px solid var(--gold-light);border-radius:6px;padding:2px 6px;font-weight:600;}
 .log-table{width:100%;border-collapse:collapse;font-size:12px;}
 .log-table th{background:var(--charcoal);color:rgba(255,255,255,.45);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;text-align:left;font-weight:500;}
 .log-table td{padding:9px 12px;border-bottom:1px solid var(--divider);color:var(--charcoal);background:var(--warm-white);vertical-align:middle;}
@@ -188,27 +195,9 @@ header{background:var(--charcoal);padding:0 16px;display:flex;align-items:center
 .vh-star{background:none;border:none;cursor:pointer;font-size:13px;padding:1px 2px;color:var(--warm-gray);line-height:1;flex-shrink:0;}
 .vh-star.on{color:var(--gold);}
 .vbadge{font-size:9px;padding:1px 5px;border-radius:7px;font-weight:600;white-space:nowrap;}
-.vc-ART{background:#FBEAF0;color:#72243E;}
-.vc-DECOR{background:#EEEDFE;color:#3C3489;}
-.vc-FLORALS{background:#E1F5EE;color:#085041;}
-.vc-FURNITURE{background:#FAEEDA;color:#633806;}
-.vc-HARDWARE{background:#F1EFE8;color:#444441;}
-.vc-LIGHTING{background:#FAEEDA;color:#412402;}
-.vc-MISC{background:#E6F1FB;color:#0C447C;}
-.vc-PILLOWS{background:#FBEAF0;color:#4B1528;}
-.vc-RUGS{background:#EAF3DE;color:#27500A;}
-.vc-TEXTILES{background:#E1F5EE;color:#04342C;}
-.vc-TILE{background:#F1EFE8;color:#2C2C2A;}
-.vs-Active{background:#EAF3DE;color:#27500A;}
-.vs-Pending{background:#FAEEDA;color:#633806;}
-.vs-Needs{background:#FCEBEB;color:#791F1F;}
-.vs-Requested{background:#E6F1FB;color:#0C447C;}
-.vs-via{background:#F1EFE8;color:#444441;}
-.vt-style{background:#EEEDFE;color:#3C3489;border:1px solid #AFA9EC;}
-.vt-project{background:#E1F5EE;color:#085041;border:1px solid #5DCAA5;}
-.vt-quality{background:#FAEEDA;color:#633806;border:1px solid #EF9F27;}
-.vt-logistics{background:#E6F1FB;color:#0C447C;border:1px solid #85B7EB;}
-.vt-custom{background:#F1EFE8;color:#444441;border:1px solid #B4B2A9;}
+.vc-ART{background:#FBEAF0;color:#72243E;}.vc-DECOR{background:#EEEDFE;color:#3C3489;}.vc-FLORALS{background:#E1F5EE;color:#085041;}.vc-FURNITURE{background:#FAEEDA;color:#633806;}.vc-HARDWARE{background:#F1EFE8;color:#444441;}.vc-LIGHTING{background:#FAEEDA;color:#412402;}.vc-MISC{background:#E6F1FB;color:#0C447C;}.vc-PILLOWS{background:#FBEAF0;color:#4B1528;}.vc-RUGS{background:#EAF3DE;color:#27500A;}.vc-TEXTILES{background:#E1F5EE;color:#04342C;}.vc-TILE{background:#F1EFE8;color:#2C2C2A;}
+.vs-Active{background:#EAF3DE;color:#27500A;}.vs-Pending{background:#FAEEDA;color:#633806;}.vs-Needs{background:#FCEBEB;color:#791F1F;}.vs-Requested{background:#E6F1FB;color:#0C447C;}.vs-via{background:#F1EFE8;color:#444441;}
+.vt-style{background:#EEEDFE;color:#3C3489;border:1px solid #AFA9EC;}.vt-project{background:#E1F5EE;color:#085041;border:1px solid #5DCAA5;}.vt-quality{background:#FAEEDA;color:#633806;border:1px solid #EF9F27;}.vt-logistics{background:#E6F1FB;color:#0C447C;border:1px solid #85B7EB;}.vt-custom{background:#F1EFE8;color:#444441;border:1px solid #B4B2A9;}
 .vh-foot{padding:8px 12px;border-top:1px solid var(--divider);font-size:10px;color:var(--warm-gray);display:flex;justify-content:space-between;align-items:center;background:var(--cream);}
 .vh-detail{flex:1;overflow-y:auto;background:var(--warm-white);}
 .vh-dh{padding:14px 16px 0;border-bottom:1px solid var(--divider);}
@@ -601,7 +590,8 @@ async function handleAuth(){
 }
 async function onSignedIn(user){currentUser=user;document.getElementById('authScreen').style.display='none';await loadFromCloud();showApp(user);}
 async function signOut(){
-  saveTimersLocal();if(sb)await sb.auth.signOut();
+  localStorage.removeItem('hh_timers');
+  if(sb)await sb.auth.signOut();
   currentUser=null;timers=[];log=[];projects=[];
   document.getElementById('mainHeader').style.display='none';
   ['tracker','dashboard','vendors'].forEach(v=>document.getElementById(v+'View').style.display='none');
@@ -683,8 +673,20 @@ async function saveProjectToCloud(project){
   try{const{data}=await sb.from('projects').insert({name:project.name,client:project.client,estimated_hours:project.estimated_hours||0,archived:false}).select().single();if(data)project.id=data.id;}catch(e){}
 }
 function loadLocal(){try{projects=JSON.parse(localStorage.getItem('hh_projects'))||[];}catch(e){projects=[];}try{log=JSON.parse(localStorage.getItem('hh_log'))||[];}catch(e){log=[];}timers=loadTimersLocal();}
-function loadTimersLocal(){try{return(JSON.parse(localStorage.getItem('hh_timers'))||[]).map(t=>({...t,running:false}));}catch(e){return[];}}
-function saveTimersLocal(){const s=timers.map(t=>({...t,accumulated:getMs(t),startedAt:t.running?Date.now():null}));try{localStorage.setItem('hh_timers',JSON.stringify(s));}catch(e){}}
+function loadTimersLocal(){
+  try{
+    return(JSON.parse(localStorage.getItem('hh_timers'))||[]).map(t=>({
+      ...t,
+      running:false,
+      startedAt:null,
+      restored:true
+    }));
+  }catch(e){return[];}
+}
+function saveTimersLocal(){
+  const s=timers.map(t=>({...t,accumulated:getMs(t),startedAt:t.running?Date.now():null}));
+  try{localStorage.setItem('hh_timers',JSON.stringify(s));}catch(e){}
+}
 function setSyncStatus(state,label){const d=document.getElementById('syncDot');if(!d)return;d.className='sync-dot '+state;document.getElementById('syncLabel').textContent=label;}
 function switchMode(mode){
   currentMode=mode;
@@ -731,12 +733,12 @@ async function logManual(){
 function startTimer(){
   const projIdx=parseInt(document.getElementById('formProject').value);if(isNaN(projIdx)||selectedPhaseIdx===null)return;
   timers.forEach(t=>{if(t.running)pauseTimer(t.id,true);});
-  timers.push({id:Date.now(),projectIdx:projIdx,phaseIdx:selectedPhaseIdx,accumulated:0,startedAt:Date.now(),running:true});
+  timers.push({id:Date.now(),projectIdx:projIdx,phaseIdx:selectedPhaseIdx,accumulated:0,startedAt:Date.now(),running:true,restored:false});
   saveTimersLocal();document.getElementById('formProject').value='';selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderTimers();showToast('Timer started');
 }
 function pauseTimer(id,silent){const t=timers.find(x=>x.id===id);if(!t||!t.running)return;t.accumulated+=Date.now()-t.startedAt;t.startedAt=null;t.running=false;saveTimersLocal();if(!silent){renderTimers();showToast('Paused');}}
-function resumeTimer(id){timers.forEach(t=>{if(t.running&&t.id!==id)pauseTimer(t.id,true);});const t=timers.find(x=>x.id===id);if(!t||t.running)return;t.startedAt=Date.now();t.running=true;saveTimersLocal();renderTimers();showToast('Resumed');}
-function getMs(t){return t.accumulated+(t.running?Date.now()-t.startedAt:0);}
+function resumeTimer(id){timers.forEach(t=>{if(t.running&&t.id!==id)pauseTimer(t.id,true);});const t=timers.find(x=>x.id===id);if(!t||t.running)return;t.startedAt=Date.now();t.running=true;t.restored=false;saveTimersLocal();renderTimers();showToast('Resumed');}
+function getMs(t){return t.accumulated+(t.running&&t.startedAt?Date.now()-t.startedAt:0);}
 function fmtMs(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sec=s%60;return`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;}
 function fmtMsShort(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return`${h}h ${String(m).padStart(2,'0')}m`;}
 function openLogModal(id){
@@ -764,10 +766,62 @@ function renderTimers(){
   list.innerHTML=timers.map(t=>{
     const p=projects[t.projectIdx],ph=phases[t.phaseIdx];if(!p||!ph)return'';
     return`<div class="timer-card ${t.running?'running':''}" id="tcard_${t.id}">
-      <div class="timer-top"><div><div class="timer-project">${p.name}</div><div class="timer-meta"><span class="timer-cat">${ph.label}</span><span class="phase-badge badge-${ph.type}">${ph.type}</span></div></div><div class="timer-display" id="tdisp_${t.id}">${fmtMs(getMs(t))}</div></div>
-      <div class="timer-controls">${t.running?`<button class="ctrl-btn pause" onclick="pauseTimer(${t.id})">Pause</button>`:`<button class="ctrl-btn run" onclick="resumeTimer(${t.id})">Resume</button>`}<button class="ctrl-btn log-it" onclick="openLogModal(${t.id})">Log</button><button class="ctrl-btn discard" onclick="discardTimer(${t.id})">Discard</button></div>
+      <div class="timer-top">
+        <div>
+          <div class="timer-project">${p.name}</div>
+          <div class="timer-meta">
+            <span class="timer-cat">${ph.label}</span>
+            <span class="phase-badge badge-${ph.type}">${ph.type}</span>
+            ${t.restored?'<span class="restored-badge">Restored — resume or log</span>':''}
+          </div>
+        </div>
+        <div class="timer-display" id="tdisp_${t.id}">${fmtMs(getMs(t))}</div>
+      </div>
+      <div class="timer-controls">
+        ${t.running
+          ?`<button class="ctrl-btn pause" onclick="pauseTimer(${t.id})">Pause</button>`
+          :`<button class="ctrl-btn run" onclick="resumeTimer(${t.id})">Resume</button>`}
+        <button class="ctrl-btn log-it" onclick="openLogModal(${t.id})">Log</button>
+        <button class="ctrl-btn edit-start" onclick="showEditStart(${t.id})">Edit start</button>
+        <button class="ctrl-btn discard" onclick="discardTimer(${t.id})">Discard</button>
+      </div>
+      <div class="edit-start-panel" id="editstart_${t.id}">
+        <span class="edit-start-label">Adjust start time — elapsed recalculates automatically</span>
+        <input type="datetime-local" class="edit-start-input" id="startinput_${t.id}">
+        <div class="edit-start-btns">
+          <button class="ctrl-btn run" style="flex:1;" onclick="applyStartEdit(${t.id})">Apply</button>
+          <button class="ctrl-btn" onclick="document.getElementById('editstart_${t.id}').style.display='none'">Cancel</button>
+        </div>
+      </div>
     </div>`;
   }).join('');
+}
+function showEditStart(id){
+  const panel=document.getElementById('editstart_'+id);if(!panel)return;
+  if(panel.style.display==='block'){panel.style.display='none';return;}
+  const t=timers.find(x=>x.id===id);if(!t)return;
+  const effectiveStart=new Date(Date.now()-getMs(t));
+  const offset=effectiveStart.getTimezoneOffset()*60000;
+  const localISO=new Date(effectiveStart-offset).toISOString().slice(0,16);
+  const input=document.getElementById('startinput_'+id);
+  input.value=localISO;
+  input.max=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);
+  panel.style.display='block';
+}
+function applyStartEdit(id){
+  const t=timers.find(x=>x.id===id);if(!t)return;
+  const val=document.getElementById('startinput_'+id).value;if(!val)return;
+  const newStart=new Date(val).getTime();
+  const now=Date.now();
+  if(newStart>=now){showToast('Start time must be in the past');return;}
+  if(now-newStart>172800000){showToast('Start time can\'t be more than 2 days ago');return;}
+  const newElapsed=now-newStart;
+  if(t.running){t.startedAt=now-newElapsed;t.accumulated=0;}
+  else{t.accumulated=newElapsed;t.startedAt=null;}
+  t.restored=false;
+  saveTimersLocal();
+  document.getElementById('editstart_'+id).style.display='none';
+  renderTimers();showToast('Start time updated ✓');
 }
 function tick(){timers.forEach(t=>{if(!t.running)return;const el=document.getElementById('tdisp_'+t.id);if(el)el.textContent=fmtMs(getMs(t));});if(timers.length)updateTotals();}
 function setView(v){historyView=v;['today','week','all'].forEach(x=>document.getElementById('htab-'+x).classList.toggle('active',x===v));renderLog();}
@@ -1073,7 +1127,6 @@ function vhRenderTab(v,strat,vRels){
     <div class="vh-ig3"><div class="vh-ic"><label>Status</label><p>${v.status}</p></div><div class="vh-ic"><label>Category</label><p>${v.cat}</p></div><div class="vh-ic"><label>Wholesale</label><p>${v.wholesale?'Yes':'No'}</p></div></div>
     <div class="vh-ig3"><div class="vh-ic"><label>Drop ship</label><p>${v.dropship?'Yes':'No'}</p></div><div class="vh-ic"><label>Phase 1</label><p>${v.phase1?'Yes':'No'}</p></div><div class="vh-ic"><label>Strategy</label><p>${strat?strat.name:'None assigned'}</p></div></div>
     ${v.website?`<div class="vh-ic" style="margin-top:7px"><label>Website</label><a href="${v.website}" target="_blank">${v.website.replace('https://','').replace(/\/$/,'')}</a></div>`:''}`;
-
   if(vhTab==='tags'){
     const nid='vnti'+v.id,nsd='vnts'+v.id;
     return`<p style="font-size:11px;color:var(--warm-gray);margin-bottom:12px">Tags are shared across the team. Click a tag to filter the vendor list.</p>
@@ -1081,7 +1134,6 @@ function vhRenderTab(v,strat,vRels){
     <div class="vh-sl">Add new tag</div>
     <div class="vh-add-tag-row"><select id="${nsd}">${VH_TAG_TYPES.map(tt=>`<option value="${tt.key}">${tt.label}</option>`).join('')}</select><input type="text" id="${nid}" placeholder="New tag…" onkeydown="if(event.key==='Enter'){vhAddTag(${v.id},document.getElementById('${nsd}').value,this.value);this.value=''}"><button class="vh-btn vh-btn-gold" onclick="vhAddTag(${v.id},document.getElementById('${nsd}').value,document.getElementById('${nid}').value);document.getElementById('${nid}').value=''">Add</button></div>`;
   }
-
   if(vhTab==='relationships'){
     const rsd='vrsd'+v.id,rtd='vrtd'+v.id;
     return`<p style="font-size:11px;color:var(--warm-gray);margin-bottom:12px">Link vendors — brand families, ordering paths, shared reps.</p>
@@ -1090,7 +1142,6 @@ function vhRenderTab(v,strat,vRels){
     <div class="vh-sl" style="margin-top:14px">Add relationship</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px"><select id="${rtd}" style="padding:6px 9px;font-size:11px;border:1.5px solid var(--divider);border-radius:8px;background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-serif;"><option>sub-brand of</option><option>ordered via</option><option>same rep as</option><option>sister brand to</option><option>covers account for</option></select><select id="${rsd}" style="padding:6px 9px;font-size:11px;border:1.5px solid var(--divider);border-radius:8px;background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-serif;"><option value="">— select vendor —</option>${VH_V.filter(x=>x.id!==v.id).map(x=>`<option value="${x.id}">${x.name}</option>`).join('')}</select><button class="vh-btn vh-btn-gold" onclick="vhAddRel(${v.id},document.getElementById('${rtd}').value,document.getElementById('${rsd}').value)">Link</button></div>`;
   }
-
   if(vhTab==='pricing'){
     const cid='vci'+v.id;
     const cost=parseFloat(document.getElementById(cid)?.value)||0;
@@ -1101,11 +1152,9 @@ function vhRenderTab(v,strat,vRels){
     <input type="number" id="${cid}" placeholder="Your cost from vendor…" step="0.01" oninput="vhRenderDetail()" style="width:100%;padding:10px 12px;font-size:15px;border:1.5px solid var(--divider);border-radius:8px;background:var(--cream);color:var(--charcoal);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:10px;">
     ${strat&&cost>0?`<div class="vh-price-box"><div style="font-size:11px;color:var(--warm-gray)">Client price</div><div class="vh-price-result">$${cp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</div><div class="vh-price-row"><span>Your cost</span><span>$${cost.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div><div class="vh-price-row"><span>Margin</span><span class="vh-mpill">$${margin.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})} · ${mpct.toFixed(1)}%</span></div><div class="vh-price-row"><span>Client pays</span><span style="color:var(--gold);font-weight:600">$${cp.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}</span></div></div><button class="vh-btn vh-btn-green" style="width:100%" onclick="showToast('Added to proposal ✓')">Add to proposal ✓</button>`:`<p style="font-size:12px;color:var(--warm-gray)">${strat?'Enter cost above.':'No strategy assigned — ask Mike.'}</p>`}`;
   }
-
   if(vhTab==='contacts')return`
     <div class="vh-ig"><div class="vh-ic"><label>Rep</label><p>${v.rep||'—'}</p></div><div class="vh-ic"><label>Phone</label><p>${v.phone||'—'}</p></div><div class="vh-ic"><label>Email</label>${v.repEmail?`<a href="mailto:${v.repEmail}">${v.repEmail}</a>`:'<p>—</p>'}</div><div class="vh-ic"><label>Website</label>${v.website?`<a href="${v.website}" target="_blank">${v.website.replace('https://','').replace(/\/$/,'')}</a>`:'<p>—</p>'}</div></div>
     ${v.tradeRep?`<div class="vh-sl" style="margin-top:10px">Secondary rep</div><div class="vh-ig"><div class="vh-ic"><label>Name</label><p>${v.tradeRep}</p></div><div class="vh-ic"><label>Email</label>${v.tradeEmail?`<a href="mailto:${v.tradeEmail}">${v.tradeEmail}</a>`:'<p>—</p>'}</div></div>`:''}`;
-
   if(vhTab==='notes'){
     const ntid='vnotes'+v.id;
     return`<div class="vh-sl">Internal notes</div>
