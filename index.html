@@ -326,10 +326,10 @@ header{background:var(--charcoal);padding:0 16px;display:flex;align-items:center
           </div>
           <div class="form-row">
             <label class="form-label">Project</label>
-            <select class="select-field" id="formProject" onchange="checkActionBtn()"><option value="">— Select project —</option></select>
+            <select class="select-field" id="formProject" onchange="selectedPhaseIdx=null;renderPhasePills();checkActionBtn()"><option value="">— Select project —</option></select>
           </div>
           <div class="form-row">
-            <label class="form-label">Phase</label>
+            <label class="form-label" id="phaseLabel">Phase</label>
             <div class="phase-pills" id="phasePills"></div>
           </div>
           <div id="timerMode">
@@ -485,6 +485,20 @@ const phases=[
   {label:'Coordination Billable',type:'billable'},{label:'Coordination Non-Billable',type:'nonbillable'},
   {label:'Install',type:'billable'},{label:'Wrap Up',type:'billable'},{label:'Travel',type:'travel'}
 ];
+// ── Non-Project internal categories ──
+const nonProjectPhases=[
+  {label:'Internal Meeting',type:'nonbillable'},
+  {label:'Education / Training',type:'nonbillable'},
+  {label:'Trade Show',type:'nonbillable'},
+  {label:'Studio Admin',type:'nonbillable'},
+  {label:'Marketing / Social',type:'nonbillable'},
+  {label:'Team Coordination',type:'nonbillable'},
+  {label:'Business Development',type:'nonbillable'},
+  {label:'Photography / Content',type:'nonbillable'}
+];
+function isNonProject(){const s=document.getElementById('formProject');return s&&s.value==='__nonproject__';}
+function activePhases(){return isNonProject()?nonProjectPhases:phases;}
+
 let sb=null,currentUser=null,projects=[],log=[],timers=[],selectedPhaseIdx=null;
 let currentMode='timer',historyView='today',pendingLogTimerId=null,authMode='signin';
 let initDone=false,currentView='tracker';
@@ -669,18 +683,18 @@ async function updateEntryInCloud(id,fields){
 }
 async function deleteEntryFromCloud(id){if(!sb||!currentUser)return;try{await sb.from('time_entries').delete().eq('id',id);}catch(e){}}
 async function saveProjectToCloud(project){
-  if(!sb)return;
-  try{const{data}=await sb.from('projects').insert({name:project.name,client:project.client,estimated_hours:project.estimated_hours||0,archived:false}).select().single();if(data)project.id=data.id;}catch(e){}
+  if(!sb)return false;
+  try{
+    const{data,error}=await sb.from('projects').insert({name:project.name,client:project.client,estimated_hours:project.estimated_hours||0,archived:false}).select().single();
+    if(error){console.error('Project save error:',error);showToast('Save failed: '+error.message);return false;}
+    if(data)project.id=data.id;
+    return true;
+  }catch(e){showToast('Save failed — check connection');console.error(e);return false;}
 }
 function loadLocal(){try{projects=JSON.parse(localStorage.getItem('hh_projects'))||[];}catch(e){projects=[];}try{log=JSON.parse(localStorage.getItem('hh_log'))||[];}catch(e){log=[];}timers=loadTimersLocal();}
 function loadTimersLocal(){
   try{
-    return(JSON.parse(localStorage.getItem('hh_timers'))||[]).map(t=>({
-      ...t,
-      running:false,
-      startedAt:null,
-      restored:true
-    }));
+    return(JSON.parse(localStorage.getItem('hh_timers'))||[]).map(t=>({...t,running:false,startedAt:null,restored:true}));
   }catch(e){return[];}
 }
 function saveTimersLocal(){
@@ -697,14 +711,24 @@ function switchMode(mode){
 function renderProjectSelect(){
   const sel=document.getElementById('formProject');if(!sel)return;
   const prev=sel.value;
-  sel.innerHTML='<option value="">— Select project —</option>'+projects.map((p,i)=>p.archived?'':`<option value="${i}">${p.name}${p.client?' · '+p.client:''}</option>`).join('');
+  sel.innerHTML='<option value="">— Select project —</option>'
+    +projects.map((p,i)=>p.archived?'':`<option value="${i}">${p.name}${p.client?' · '+p.client:''}</option>`).join('')
+    +'<option value="__nonproject__" style="font-style:italic;">— Non-Project Time —</option>';
   if(prev)sel.value=prev;
 }
 function renderPhasePills(){
-  document.getElementById('phasePills').innerHTML=phases.map((p,i)=>`<div class="phase-pill" id="pill_${i}" onclick="selectPhase(${i})">${p.label}</div>`).join('');
-  if(selectedPhaseIdx!==null){const el=document.getElementById('pill_'+selectedPhaseIdx);if(el)el.classList.add('sel-'+phases[selectedPhaseIdx].type);}
+  const ap=activePhases();
+  const lbl=document.getElementById('phaseLabel');
+  if(lbl)lbl.textContent=isNonProject()?'Category':'Phase';
+  document.getElementById('phasePills').innerHTML=ap.map((p,i)=>`<div class="phase-pill" id="pill_${i}" onclick="selectPhase(${i})">${p.label}</div>`).join('');
+  if(selectedPhaseIdx!==null){const el=document.getElementById('pill_'+selectedPhaseIdx);if(el)el.classList.add('sel-'+ap[selectedPhaseIdx].type);}
 }
-function selectPhase(i){selectedPhaseIdx=i;phases.forEach((_,j)=>{document.getElementById('pill_'+j).className='phase-pill'+(j===i?' sel-'+phases[j].type:'');});checkActionBtn();}
+function selectPhase(i){
+  selectedPhaseIdx=i;
+  const ap=activePhases();
+  ap.forEach((_,j)=>{document.getElementById('pill_'+j).className='phase-pill'+(j===i?' sel-'+ap[j].type:'');});
+  checkActionBtn();
+}
 function checkActionBtn(){
   const projOk=document.getElementById('formProject').value!=='';const phaseOk=selectedPhaseIdx!==null;
   if(currentMode==='timer'){document.getElementById('startBtn').disabled=!(projOk&&phaseOk);}
@@ -721,9 +745,13 @@ async function addProject(){
   document.getElementById('addProjectForm').classList.remove('open');renderProjectSelect();showToast('Project added ✓');
 }
 async function logManual(){
-  const projIdx=parseInt(document.getElementById('formProject').value);const h=parseInt(document.getElementById('manHours').value)||0;const m=parseInt(document.getElementById('manMinutes').value)||0;
-  const hours=+(h+m/60).toFixed(2);if(!hours||selectedPhaseIdx===null||isNaN(projIdx))return;
-  const p=projects[projIdx],ph=phases[selectedPhaseIdx];const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
+  const projVal=document.getElementById('formProject').value;
+  const h=parseInt(document.getElementById('manHours').value)||0;const m=parseInt(document.getElementById('manMinutes').value)||0;
+  const hours=+(h+m/60).toFixed(2);if(!hours||selectedPhaseIdx===null||!projVal)return;
+  const ap=activePhases();const ph=ap[selectedPhaseIdx];
+  const p=projVal==='__nonproject__'?{name:'Non-Project',client:''}:projects[parseInt(projVal)];
+  if(!p||!ph)return;
+  const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
   const dateVal=document.getElementById('manDate').value;const entryDate=dateVal?new Date(dateVal+'T12:00:00').toLocaleDateString('en-US'):todayStr();
   const entry={id:Date.now(),date:entryDate,designer,project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours,notes:document.getElementById('manNotes').value.trim(),method:'manual'};
   log.push(entry);if(sb&&currentUser)await saveEntryToCloud(entry);
@@ -731,9 +759,10 @@ async function logManual(){
   selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderLog();showToast('Entry saved ✓');
 }
 function startTimer(){
-  const projIdx=parseInt(document.getElementById('formProject').value);if(isNaN(projIdx)||selectedPhaseIdx===null)return;
+  const projVal=document.getElementById('formProject').value;if(!projVal||selectedPhaseIdx===null)return;
+  const projIdx=projVal==='__nonproject__'?'__nonproject__':parseInt(projVal);
   timers.forEach(t=>{if(t.running)pauseTimer(t.id,true);});
-  timers.push({id:Date.now(),projectIdx:projIdx,phaseIdx:selectedPhaseIdx,accumulated:0,startedAt:Date.now(),running:true,restored:false});
+  timers.push({id:Date.now(),projectIdx:projIdx,phaseIdx:selectedPhaseIdx,isNonProj:projVal==='__nonproject__',accumulated:0,startedAt:Date.now(),running:true,restored:false});
   saveTimersLocal();document.getElementById('formProject').value='';selectedPhaseIdx=null;renderPhasePills();checkActionBtn();renderTimers();showToast('Timer started');
 }
 function pauseTimer(id,silent){const t=timers.find(x=>x.id===id);if(!t||!t.running)return;t.accumulated+=Date.now()-t.startedAt;t.startedAt=null;t.running=false;saveTimersLocal();if(!silent){renderTimers();showToast('Paused');}}
@@ -743,7 +772,8 @@ function fmtMs(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor
 function fmtMsShort(ms){const s=Math.floor(ms/1000),h=Math.floor(s/3600),m=Math.floor((s%3600)/60);return`${h}h ${String(m).padStart(2,'0')}m`;}
 function openLogModal(id){
   const t=timers.find(x=>x.id===id);if(!t)return;if(t.running)pauseTimer(id,true);pendingLogTimerId=id;
-  const p=projects[t.projectIdx],ph=phases[t.phaseIdx];
+  const p=t.isNonProj?{name:'Non-Project',client:''}:projects[t.projectIdx];
+  const ph=t.isNonProj?nonProjectPhases[t.phaseIdx]:phases[t.phaseIdx];
   document.getElementById('notesModalSub').textContent=`${p.name} · ${ph.label} · ${fmtMsShort(getMs(t))}`;
   document.getElementById('notesInput').value='';document.getElementById('notesModal').style.display='flex';
 }
@@ -751,7 +781,10 @@ function cancelLog(){document.getElementById('notesModal').style.display='none';
 async function confirmLog(){
   const t=timers.find(x=>x.id===pendingLogTimerId);if(!t)return;const ms=getMs(t);
   if(ms<5000){showToast('No time to log');cancelLog();return;}
-  const hours=+(ms/3600000).toFixed(2);const p=projects[t.projectIdx],ph=phases[t.phaseIdx];const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
+  const hours=+(ms/3600000).toFixed(2);
+  const p=t.isNonProj?{name:'Non-Project',client:''}:projects[t.projectIdx];
+  const ph=t.isNonProj?nonProjectPhases[t.phaseIdx]:phases[t.phaseIdx];
+  const designer=currentUser?currentUser.email.split('@')[0]:'Designer';
   const entry={id:Date.now(),date:todayStr(),designer,project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours,notes:document.getElementById('notesInput').value.trim(),method:'timer'};
   log.push(entry);if(sb&&currentUser)await saveEntryToCloud(entry);
   timers=timers.filter(x=>x.id!==pendingLogTimerId);saveTimersLocal();
@@ -764,7 +797,9 @@ function renderTimers(){
   document.getElementById('runningStatus').innerHTML=rc?`<div class="running-pulse"><div class="pulse-dot"></div>${rc} running</div>`:'';
   if(!timers.length){list.innerHTML=`<div class="empty-timers"><div class="empty-timers-text">No timers running</div><div class="empty-timers-sub">Use Live Timer mode to begin</div></div>`;return;}
   list.innerHTML=timers.map(t=>{
-    const p=projects[t.projectIdx],ph=phases[t.phaseIdx];if(!p||!ph)return'';
+    const p=t.isNonProj?{name:'Non-Project',client:''}:projects[t.projectIdx];
+    const ph=t.isNonProj?nonProjectPhases[t.phaseIdx]:phases[t.phaseIdx];
+    if(!p||!ph)return'';
     return`<div class="timer-card ${t.running?'running':''}" id="tcard_${t.id}">
       <div class="timer-top">
         <div>
@@ -811,8 +846,7 @@ function showEditStart(id){
 function applyStartEdit(id){
   const t=timers.find(x=>x.id===id);if(!t)return;
   const val=document.getElementById('startinput_'+id).value;if(!val)return;
-  const newStart=new Date(val).getTime();
-  const now=Date.now();
+  const newStart=new Date(val).getTime();const now=Date.now();
   if(newStart>=now){showToast('Start time must be in the past');return;}
   if(now-newStart>172800000){showToast('Start time can\'t be more than 2 days ago');return;}
   const newElapsed=now-newStart;
@@ -847,7 +881,10 @@ function renderLog(){
   </tr>`).join('');
   updateTotals();
 }
-function projectOptions(selected){return projects.map((p,i)=>`<option value="${i}" ${p.name===selected?'selected':''}>${p.name}${p.client?' · '+p.client:''}</option>`).join('');}
+function projectOptions(selected){
+  return projects.map((p,i)=>`<option value="${i}" ${p.name===selected?'selected':''}>${p.name}${p.client?' · '+p.client:''}</option>`).join('')
+    +`<option value="__nonproject__" ${selected==='Non-Project'?'selected':''}>Non-Project</option>`;
+}
 function phaseOptions(selected){return phases.map((p,i)=>`<option value="${i}" ${p.label===selected?'selected':''}>${p.label}</option>`).join('');}
 function startEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
@@ -861,9 +898,10 @@ function startEdit(id){
 }
 async function saveEdit(id){
   const entry=log.find(e=>String(e.id)===String(id));if(!entry)return;
-  const projIdx=parseInt(document.getElementById('ep_'+id).value);const phaseIdx=parseInt(document.getElementById('eph_'+id).value);
+  const projVal=document.getElementById('ep_'+id).value;const phaseIdx=parseInt(document.getElementById('eph_'+id).value);
   const newHours=parseFloat(document.getElementById('eh_'+id).value)||entry.hours;const newNotes=document.getElementById('en_'+id).value.trim();
-  const p=projects[projIdx];const ph=phases[phaseIdx];if(!p||!ph)return;
+  const p=projVal==='__nonproject__'?{name:'Non-Project',client:''}:projects[parseInt(projVal)];
+  const ph=phases[phaseIdx];if(!p||!ph)return;
   entry.project=p.name;entry.client=p.client||'';entry.phase=ph.label;entry.phaseType=ph.type;entry.hours=newHours;entry.notes=newNotes;
   if(sb&&currentUser)await updateEntryInCloud(id,{project:p.name,client:p.client||'',phase:ph.label,phaseType:ph.type,hours:newHours,notes:newNotes});
   renderLog();showToast('Entry updated ✓');
@@ -875,7 +913,12 @@ async function deleteEntry(id){
 function updateTotals(){
   const today=todayStr();let total=0,billable=0,nonbillable=0,travel=0;
   log.filter(e=>e.date===today).forEach(e=>{const ms=e.hours*3600000;total+=ms;if(e.phaseType==='travel')travel+=ms;else if(e.phaseType==='nonbillable')nonbillable+=ms;else billable+=ms;});
-  timers.forEach(t=>{const ms=getMs(t);total+=ms;const pt=phases[t.phaseIdx]?.type;if(pt==='travel')travel+=ms;else if(pt==='nonbillable')nonbillable+=ms;else billable+=ms;});
+  timers.forEach(t=>{
+    const ms=getMs(t);total+=ms;
+    const ph=t.isNonProj?nonProjectPhases[t.phaseIdx]:phases[t.phaseIdx];
+    const pt=ph?.type;
+    if(pt==='travel')travel+=ms;else if(pt==='nonbillable')nonbillable+=ms;else billable+=ms;
+  });
   document.getElementById('totalVal').textContent=fmtMsShort(total);document.getElementById('billableVal').textContent=fmtMsShort(billable);
   document.getElementById('nonbillableVal').textContent=fmtMsShort(nonbillable);document.getElementById('travelVal').textContent=fmtMsShort(travel);
 }
