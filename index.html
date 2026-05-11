@@ -694,7 +694,16 @@ async function saveProjectToCloud(project){
 function loadLocal(){try{projects=JSON.parse(localStorage.getItem('hh_projects'))||[];}catch(e){projects=[];}try{log=JSON.parse(localStorage.getItem('hh_log'))||[];}catch(e){log=[];}timers=loadTimersLocal();}
 function loadTimersLocal(){
   try{
-    return(JSON.parse(localStorage.getItem('hh_timers'))||[]).map(t=>({...t,running:false,startedAt:null,restored:true}));
+    const today=new Date().toDateString();
+    return(JSON.parse(localStorage.getItem('hh_timers'))||[]).filter(t=>{
+      if(!t.startedAt)return true;
+      return new Date(t.startedAt).toDateString()===today;
+    }).map(t=>({
+      ...t,
+      running:false,
+      startedAt:null,
+      restored:true
+    }));
   }catch(e){return[];}
 }
 function saveTimersLocal(){
